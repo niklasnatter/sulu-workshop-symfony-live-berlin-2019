@@ -23,9 +23,32 @@ class LocationRepository extends ServiceEntityRepository
 
     public function create(): Location
     {
-        $location = new Location();
+        return new Location();
+    }
 
+    public function remove(int $id): void
+    {
+        $this->getEntityManager()->remove(
+            $this->getEntityManager()->getReference(
+                $this->getClassName(),
+                $id
+            )
+        );
+        $this->getEntityManager()->flush();
+    }
+
+    public function save(Location $location): void
+    {
         $this->getEntityManager()->persist($location);
+        $this->getEntityManager()->flush();
+    }
+
+    public function findById(int $id): ?Location
+    {
+        $location = $this->find($id);
+        if (!$location) {
+            return null;
+        }
 
         return $location;
     }
