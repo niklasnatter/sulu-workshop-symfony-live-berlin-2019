@@ -12,7 +12,7 @@
             </meta>
         </property>
 
-        <property name="location" type="text_line" colspan="3">
+        <property name="locationId" type="single_location_selection" mandatory="true" colspan="3">
             <meta>
                 <title>app.location</title>
             </meta>

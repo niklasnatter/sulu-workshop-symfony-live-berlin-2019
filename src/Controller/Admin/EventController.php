@@ -7,6 +7,7 @@ namespace App\Controller\Admin;
 use App\Admin\DoctrineListRepresentationFactory;
 use App\Entity\Event;
 use App\Repository\EventRepository;
+use App\Repository\LocationRepository;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Routing\ClassResourceInterface;
 use Sulu\Component\Rest\RestController;
@@ -22,15 +23,22 @@ class EventController extends RestController implements ClassResourceInterface
     private $repository;
 
     /**
+     * @var LocationRepository
+     */
+    private $locationRepository;
+
+    /**
      * @var DoctrineListRepresentationFactory
      */
     private $doctrineListRepresentationFactory;
 
     public function __construct(
         EventRepository $repository,
+        LocationRepository $locationRepository,
         DoctrineListRepresentationFactory $doctrineListRepresentationFactory
     ) {
         $this->repository = $repository;
+        $this->locationRepository = $locationRepository;
         $this->doctrineListRepresentationFactory = $doctrineListRepresentationFactory;
     }
 
@@ -135,8 +143,8 @@ class EventController extends RestController implements ClassResourceInterface
             $entity->setEndDate(new \DateTimeImmutable($endDate));
         }
 
-        if ($location = $data['location'] ?? null) {
-            $entity->setLocation($location);
+        if ($locationId = $data['locationId'] ?? null) {
+            $entity->setLocation($this->locationRepository->findById((int) $locationId));
         }
     }
 
