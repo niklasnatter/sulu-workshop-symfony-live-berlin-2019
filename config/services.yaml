@@ -50,3 +50,7 @@ services:
     App\Controller\Admin\:
         resource: '../src/Controller/Admin'
         tags: [{name: 'sulu.context', context: 'admin'}]
+
+    App\Repository\:
+        resource: '../src/Repository'
+        public: true
